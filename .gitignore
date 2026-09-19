@@ -1,0 +1,30 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Node (for labs that use a JS/TS proxy or tooling)
+node_modules/
+npm-debug.log*
+
+# Env / secrets
+.env
+.env.*
+*.pem
+*.key
+
+# Editors / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Lab artifacts
+labs/**/output/
+labs/**/*.log
+labs/**/.cache/
