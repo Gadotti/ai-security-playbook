@@ -1,0 +1,50 @@
+# Example declarative tool-allowlist policy, implementing the "minimize
+# functionality / minimize permissions / complete mediation" mitigations
+# from docs/owasp-llm/LLM03.md.
+#
+# This is a policy DOCUMENT/format example, not wired to a specific engine
+# in this repo. labs/ai-jail/tool_gateway.py implements the same
+# allow-by-name, deny-by-default pattern directly in Python; this file
+# shows how you might express the same policy declaratively if your stack
+# separates policy from code — e.g. so a security reviewer can approve a
+# change without touching application code.
+
+version: 1
+default: deny  # anything not explicitly listed below is denied
+
+tools:
+  - name: read_file
+    description: Read a file from the agent's confined workspace only.
+    scope: workspace_only
+    requires_approval: false
+    reversible: true
+
+  - name: write_note
+    description: Write a short text note into the agent's confined workspace.
+    scope: workspace_only
+    max_size_bytes: 10000
+    requires_approval: false
+    reversible: true
+
+  - name: send_email
+    description: >
+      Send an email on the user's behalf, to addresses the user has
+      already corresponded with in this conversation.
+    scope: user_authorized_recipients_only
+    requires_approval: true   # graduated enforcement: externally-visible,
+                               # hard-to-undo actions require a human
+    reversible: false
+
+  - name: process_refund
+    description: Issue store credit (not an external payout) up to the
+      order's original value.
+    scope: store_credit_only
+    max_amount: order_total
+    requires_approval: false  # reversible and capped -> safe to auto-approve
+    reversible: true
+    external_payout: false
+
+# Deliberately absent: anything resembling a raw shell, an arbitrary HTTP
+# fetch, or unrestricted filesystem/database access. See LLM03's
+# "excessive functionality" mitigation — add new tools narrowly, one
+# capability at a time, never as open-ended primitives.

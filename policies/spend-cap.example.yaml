@@ -1,0 +1,32 @@
+# Example hard-spend-cap policy for docs/owasp-llm/LLM06.md
+# (Unbounded Consumption).
+#
+# Per OWASP's own 2026 guidance, an alert at these thresholds is not
+# sufficient by itself for fast agentic workloads — the cap has to actually
+# halt inference, not just notify a human who might not react in time. The
+# `caps` below are hard stops; the separate `alerts` section is early
+# warning only and does not block anything.
+
+version: 1
+
+caps:
+  per_session:
+    max_cost_usd: 2.00
+    action: hard_stop         # halts the session; this is not an alert
+
+  per_user_per_day:
+    max_cost_usd: 20.00
+    action: hard_stop
+
+  per_agent_run:
+    max_tool_calls: 25
+    max_recursion_depth: 5
+    max_wall_clock_seconds: 120
+    action: hard_stop          # agentic circuit breaker, per LLM06
+
+alerts:                        # separate from the caps above; fires earlier
+                                # as a warning, without blocking anything
+  - threshold_pct_of_cap: 50
+    channel: observability_log
+  - threshold_pct_of_cap: 80
+    channel: alert_channel     # wire to your own paging/chat system
