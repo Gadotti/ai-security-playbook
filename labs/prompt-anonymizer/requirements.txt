@@ -1,0 +1,5 @@
+presidio-analyzer
+spacy
+# After installing, download the NLP model Presidio's default AnalyzerEngine
+# expects (not installed by pip automatically):
+#   python -m spacy download en_core_web_lg
