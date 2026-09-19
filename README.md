@@ -38,7 +38,15 @@ This numbering was checked against the official 2026 list before writing anythin
 
 ## Status
 
-This repo is under active construction. Sections without content yet are placeholders with a short description of what will go there — nothing here should be read as finished guidance until it has real content and citations.
+All planned sections have real, cited content: the 10 OWASP risk pages, the ISO/IEC 42001 mapping, both strategy write-ups, all four labs, both system prompts, and the consolidated framework (checklist, maturity model, templates, and example policies/hooks).
+
+That said, treat this as a living reference, not a finished audit:
+
+- Every `[to verify]` marker in a doc means exactly what it says — flagged as unconfirmed during research, not silently resolved.
+- The system prompts and hooks are documented and internally tested (see each one's own README/limitations section) but **not yet red-teamed against a real production system** — don't treat them as validated security boundaries.
+- The OWASP LLM Top 10 itself gets revised periodically; this repo tracks the 2026 edition (see [docs/notes/owasp-numbering-check.md](docs/notes/owasp-numbering-check.md)) and will need a re-check against future editions.
+
+Issues and PRs pointing out anything stale, wrong, or missing a citation are welcome — see [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## Ground rules for this repo
 

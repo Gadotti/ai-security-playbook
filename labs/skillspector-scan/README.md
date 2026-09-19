@@ -49,7 +49,7 @@ skillspector scan ./my-skill/ --format json --output report.json
 skillspector scan ./my-skill/ --format sarif
 ```
 
-Supported ecosystems: Python (PyPI), JavaScript (npm), and skills mixing both. Output formats: terminal, JSON, Markdown, and SARIF (for CI/CD integration — pairs naturally with this repo's [CI workflow](../../.github/workflows/ci.yml) if you want to gate skill installs on a scan).
+Supported ecosystems: Python (PyPI), JavaScript (npm), and skills mixing both. Output formats: terminal, JSON, Markdown, and SARIF (for CI/CD integration — the SARIF output is meant for exactly this: gating skill installs on a scan in whatever CI system you use). See [policies/hooks/scan_new_skills.sh](../../policies/hooks/scan_new_skills.sh) for a shell-script version of the same gate.
 
 ## Worked example
 
