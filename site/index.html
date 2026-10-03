@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI Security Playbook</title>
+<meta name="description" content="Visual explorer for the AI Security Playbook: OWASP LLM Top 10 (2026) risks, labs, checklist, maturity model and policies.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%232f5bea' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="assets/core.css">
+<style>
+  /* Visual style: professional, minimal, light + dark */
+  :root {
+    --pb-bg: #ffffff; --pb-surface: #fafafb; --pb-surface-2: #f1f2f5; --pb-fg: #15171c; --pb-muted: #60646f;
+    --pb-border: #e4e6eb; --pb-accent: #3355e0; --pb-accent-fg: #fff; --pb-accent-soft: rgba(51, 85, 224, .09);
+    --pb-code-bg: #f5f6f8; --pb-console-bg: #0f1117; --pb-console-fg: #e5e7eb;
+    --pb-font: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif; --pb-font-head: var(--pb-font);
+    --pb-font-mono: "JetBrains Mono", ui-monospace, Consolas, monospace;
+    --pb-radius: 12px; --pb-radius-sm: 8px; --pb-shadow: 0 1px 2px rgba(16, 24, 40, .04);
+    --pb-l-entry: #2f6fe0; --pb-l-amplifier: #c77a06; --pb-l-impact: #d23c3c; --pb-l-boundary: #6d5bd0;
+  }
+  :root[data-mode="dark"] {
+    --pb-bg: #0e1015; --pb-surface: #151821; --pb-surface-2: #1c202b; --pb-fg: #e8eaf0; --pb-muted: #9aa1b2;
+    --pb-border: #262b38; --pb-accent: #7b96ff; --pb-accent-fg: #0b0d12; --pb-accent-soft: rgba(123, 150, 255, .13);
+    --pb-code-bg: #121520; --pb-console-bg: #07080c; --pb-ok: #4cc38a; --pb-warn: #e0a84a; --pb-bad: #f07171;
+    --pb-l-entry: #6d9eff; --pb-l-amplifier: #eaa53d; --pb-l-impact: #f07171; --pb-l-boundary: #a795ff;
+    --pb-hl-keyword: #c4a5ff; --pb-hl-string: #7fd6a4; --pb-hl-comment: #6f7687; --pb-hl-number: #f0b36a; --pb-hl-title: #8fb0ff; --pb-hl-attr: #f59e6b;
+    --pb-shadow: none;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-mode="light"]) {
+      --pb-bg: #0e1015; --pb-surface: #151821; --pb-surface-2: #1c202b; --pb-fg: #e8eaf0; --pb-muted: #9aa1b2;
+      --pb-border: #262b38; --pb-accent: #7b96ff; --pb-accent-fg: #0b0d12; --pb-accent-soft: rgba(123, 150, 255, .13);
+      --pb-code-bg: #121520; --pb-console-bg: #07080c; --pb-ok: #4cc38a; --pb-warn: #e0a84a; --pb-bad: #f07171;
+      --pb-l-entry: #6d9eff; --pb-l-amplifier: #eaa53d; --pb-l-impact: #f07171; --pb-l-boundary: #a795ff;
+      --pb-hl-keyword: #c4a5ff; --pb-hl-string: #7fd6a4; --pb-hl-comment: #6f7687; --pb-hl-number: #f0b36a; --pb-hl-title: #8fb0ff; --pb-hl-attr: #f59e6b;
+      --pb-shadow: none;
+    }
+  }
+  body { font-feature-settings: "cv11", "ss01"; letter-spacing: -.005em; }
+  .pb-brand-mark { width: 30px; height: 30px; border-radius: 8px; display: grid; place-items: center; background: var(--pb-accent); color: var(--pb-accent-fg); }
+  .pb-brand small { display: block; font-weight: 500; font-size: .72em; color: var(--pb-muted); letter-spacing: 0; }
+  .pb-sidebar { background: var(--pb-bg); }
+  .pb-sidebar-foot { margin-top: auto; display: grid; gap: 10px; font-size: .8em; color: var(--pb-muted); }
+  .pb-nav-link { color: var(--pb-muted); font-weight: 500; }
+  .pb-nav-link:hover { color: var(--pb-fg); }
+  .pb-nav-link.is-active { color: var(--pb-accent); background: var(--pb-accent-soft); }
+  .pb-topbar { backdrop-filter: saturate(1.4) blur(10px); background: color-mix(in srgb, var(--pb-bg) 85%, transparent); }
+  .pb-mode-btn { border: 1px solid var(--pb-border); background: var(--pb-surface); border-radius: var(--pb-radius-sm); padding: 6px 9px; cursor: pointer; line-height: 1; }
+  .pb-risk-chip { background: var(--pb-fg); color: var(--pb-bg); }
+  .pb-ring { background: color-mix(in srgb, var(--pb-l-entry) 4%, var(--pb-bg)); }
+  .pb-ring[data-layer="amplifier"] { background: color-mix(in srgb, var(--pb-l-amplifier) 6%, var(--pb-bg)); }
+  .pb-ring[data-layer="impact"] { background: color-mix(in srgb, var(--pb-l-impact) 7%, var(--pb-bg)); }
+  .pb-hero .pb-title { letter-spacing: -.03em; font-weight: 800; }
+  .pb-title { letter-spacing: -.02em; }
+  .pb-card { box-shadow: none; }
+  .pb-card:hover { box-shadow: 0 6px 24px rgba(16, 24, 40, .08); }
+  @media (max-width: 860px) { .pb-brand > span:last-child { display: none; } .pb-search-btn { min-width: 0; } }
+</style>
+</head>
+<body>
+<div class="pb-shell">
+  <aside class="pb-sidebar">
+    <a class="pb-brand" href="#/">
+      <span class="pb-brand-mark"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/></svg></span>
+      <span>AI Security<br>Playbook</span>
+    </a>
+    <nav id="pb-nav" aria-label="Main"></nav>
+    <div class="pb-sidebar-foot"><div id="pb-status"></div></div>
+  </aside>
+  <div class="pb-main">
+    <header class="pb-topbar">
+      <div id="pb-crumbs" class="pb-spacer"></div>
+      <div id="pb-search"></div>
+      <div id="pb-tools"></div>
+      <button type="button" class="pb-mode-btn" id="pb-mode" aria-label="Toggle light/dark">◐</button>
+    </header>
+    <main id="pb-view"></main>
+  </div>
+</div>
+<script src="vendor/marked.min.js"></script>
+<script src="vendor/purify.min.js"></script>
+<script src="vendor/highlight.min.js"></script>
+<script src="vendor/hljs-dockerfile.min.js"></script>
+<script src="vendor/js-yaml.min.js"></script>
+<script src="data/content.js"></script>
+<script src="assets/app.js"></script>
+<script>
+  (function () {
+    var root = document.documentElement, key = 'pb:clean-mode';
+    try { var saved = localStorage.getItem(key); if (saved) root.dataset.mode = saved; } catch (e) {}
+    document.getElementById('pb-mode').addEventListener('click', function () {
+      var dark = root.dataset.mode ? root.dataset.mode === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches;
+      root.dataset.mode = dark ? 'light' : 'dark';
+      try { localStorage.setItem(key, root.dataset.mode); } catch (e) {}
+    });
+  })();
+  Playbook.init();
+</script>
+</body>
+</html>

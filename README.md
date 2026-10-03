@@ -1,5 +1,8 @@
 # ai-security-playbook
 
+> [!WARNING]
+> **Disclaimer:** this content was produced and organized with the help of AI tools and is still under validation. It may contain errors, outdated information, or incomplete guidance. Review it critically and check it against the original sources (OWASP, ISO/IEC, vendor documentation) before applying anything in production. Corrections and feedback are welcome.
+
 A practical, curated knowledge base + lab environment + framework for securing LLM applications and AI agents — built around the **OWASP GenAI LLM Top 10 (2026)**.
 
 ## Mental model: concentric layers
@@ -28,6 +31,7 @@ This numbering was checked against the official 2026 list before writing anythin
 | [labs/](labs/) | Reproducible, runnable security labs (see below) |
 | [policies/](policies/) | Example policies, hooks, and tool allowlists |
 | [resources/links.md](resources/links.md) | Curated external links, with access date and maintenance status |
+| [site/](site/) | Visual explorer for all of the above (static single page, GitHub Pages-ready): guided path, risk map, in-browser labs, interactive checklist and maturity board |
 
 ### Labs
 
