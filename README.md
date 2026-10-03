@@ -3,6 +3,8 @@
 > [!WARNING]
 > **Disclaimer:** this content was produced and organized with the help of AI tools and is still under validation. It may contain errors, outdated information, or incomplete guidance. Review it critically and check it against the original sources (OWASP, ISO/IEC, vendor documentation) before applying anything in production. Corrections and feedback are welcome.
 
+**Live explorer: https://gadotti.github.io/ai-security-playbook/**
+
 A practical, curated knowledge base + lab environment + framework for securing LLM applications and AI agents — built around the **OWASP GenAI LLM Top 10 (2026)**.
 
 ## Mental model: concentric layers

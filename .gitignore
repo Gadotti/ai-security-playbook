@@ -28,3 +28,4 @@ Thumbs.db
 labs/**/output/
 labs/**/*.log
 labs/**/.cache/
+prompt-inicial.md
